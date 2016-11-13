@@ -31,6 +31,17 @@ module V1
       end
     end
 
+    # PUT
+    # update an mission
+    def update
+      @mission = authenticate_user!.missions.find(params[:id])
+      if !@mission.nil? and @mission.update mission_params
+        render json: @mission, root: nil
+      else
+        render json: { error: t('message.mission_update_error') }, status: :unprocessable_entity
+      end
+    end
+
     # GET
     # Show an mission
     def show
