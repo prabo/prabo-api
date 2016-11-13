@@ -24,3 +24,4 @@ en:
     failure_authentications: 'Failed authentication.'
     user_create_error: 'Error user not created.'
     mission_create_error: 'Error mission not created.'
+    mission_delete_error: "Error can't delete mission."

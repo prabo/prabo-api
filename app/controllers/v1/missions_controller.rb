@@ -20,6 +20,17 @@ module V1
       end
     end
 
+    # DELETE
+    # delete an mission
+    def destroy
+      @mission = authenticate_user!.missions.find(params[:id])
+      if !@mission.nil? and @mission.destroy!
+        render json: @mission, root: nil
+      else
+        render json: { error: t('message.mission_create_error') }, status: :unprocessable_entity
+      end
+    end
+
     # GET
     # Show an mission
     def show
