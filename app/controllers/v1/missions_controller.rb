@@ -11,7 +11,7 @@ module V1
     # POST
     # Create an mission
     def create
-      @mission = Mission.new mission_params
+      @mission = authenticate_user!.missions.build mission_params
 
       if @mission.save!
         render json: @mission, root: nil
@@ -30,7 +30,7 @@ module V1
     private
 
     def mission_params
-      params.permit(:email, :password)
+      params.permit(:title, :description)
     end
   end
 end
