@@ -14,6 +14,13 @@ module V1
       end
     end
 
+    # GET
+    # Show an user
+    def show
+      @user = User.find(params[:id])
+      render json: @user, serializer: V1::UserSerializer, root: nil
+    end
+
     private
 
     def user_params
