@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :validatable
   after_create :update_access_token!
+  has_many :missions, :dependent => :destroy, :inverse_of => :author
 
   validates :email, presence: true
 

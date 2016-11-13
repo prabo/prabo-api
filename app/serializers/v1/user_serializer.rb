@@ -7,9 +7,5 @@ module V1
       object.id
     end
 
-    def token_type
-      'Bearer'
-    end
-
   end
 end

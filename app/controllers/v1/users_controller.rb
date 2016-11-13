@@ -10,7 +10,7 @@ module V1
       if @user.save!
         render json: @user, serializer: V1::SessionSerializer, root: nil
       else
-        render json: { error: t('user_create_error') }, status: :unprocessable_entity
+        render json: { error: t('message.user_create_error') }, status: :unprocessable_entity
       end
     end
 
