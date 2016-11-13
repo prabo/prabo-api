@@ -6,5 +6,7 @@ class CreateCompletes < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :completes, [:user_id, :mission_id], :unique => true
   end
 end

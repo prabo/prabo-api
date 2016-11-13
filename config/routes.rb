@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   namespace :v1, defaults: { format: :json } do
     resources :login, only: [:create], controller: :sessions
     resources :users, only: [:create, :show]
-    resources :missions, only: [:index, :create, :show, :update, :destroy]
+    resources :missions, only: [:index, :create, :show, :update, :destroy] do
+      post :complete
+      post :uncomplete
+    end
   end
 end

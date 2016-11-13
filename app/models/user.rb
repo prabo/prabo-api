@@ -15,4 +15,12 @@ class User < ApplicationRecord
     self.access_token = "#{self.id}:#{Devise.friendly_token}"
     save
   end
+
+  def complete(mission)
+    !self.completed_missions.include?(mission) and self.completed_missions << mission
+  end
+
+  def uncomplete(mission)
+    self.completed_missions.include?(mission) and self.completed_missions.destroy mission
+  end
 end

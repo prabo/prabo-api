@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20161113051020) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["mission_id"], name: "index_completes_on_mission_id"
+    t.index ["user_id", "mission_id"], name: "index_completes_on_user_id_and_mission_id", unique: true
     t.index ["user_id"], name: "index_completes_on_user_id"
   end
 

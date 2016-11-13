@@ -49,6 +49,31 @@ module V1
       render json: @mission, root: nil
     end
 
+    # PUT
+    # complete an mission
+    def complete
+      @mission = authenticate_user!.missions.find(params[:mission_id])
+      if @mission.nil?
+        render json: { error: 'Not found or You are author.' }, status: :unprocessable_entity
+      elsif !authenticate_user!.complete(@mission)
+        render json: { error: 'Already completed.' }, status: :unprocessable_entity
+      else
+        render json: { :status => 'ok', :message => 'Success!' }, root: nil
+      end
+    end
+
+    # PUT
+    # uncomplete an mission
+    def uncomplete
+      @mission = authenticate_user!.missions.find(params[:mission_id])
+      if @mission.nil?
+        render json: { error: 'Not found or You are author.' }, status: :unprocessable_entity
+      elsif !authenticate_user!.uncomplete(@mission)
+        render json: { error: 'You are not completed this mission.' }, status: :unprocessable_entity
+      else
+        render json: { :status => 'ok', :message => 'Success!' }, root: nil
+      end
+    end
     private
 
     def mission_params
