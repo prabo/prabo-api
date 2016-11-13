@@ -1,10 +1,10 @@
 module V1
   class UserSerializer < ActiveModel::Serializer
 
-    attributes :email, :token_type, :user_id
+    attributes :id, :email, :completed_missions
 
-    def user_id
-      object.id
+    def created_missions
+      object.missions
     end
 
   end

@@ -4,6 +4,8 @@ class Mission < ActiveRecord::Migration[5.0]
       t.string :title,       null: false, default: ""
       t.string :description, null: false, default: ""
       t.references :user, index: true, foreign_key: true
+
+      t.timestamps
     end
 
     add_index :missions, :title

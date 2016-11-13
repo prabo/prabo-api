@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :validatable
   after_create :update_access_token!
   has_many :missions, :dependent => :destroy, :inverse_of => :author
+  has_many :completes
+  has_many :completed_missions, :through => :completes, :inverse_of => :completed_users, :source => 'mission'
 
   validates :email, presence: true
 
