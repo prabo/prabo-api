@@ -20,4 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  messages:
+    failure_authentications: 'Failed authentication.'
+    user_create_error: 'Error user not created.'
+    mission_create_error: 'Error mission not created.'
