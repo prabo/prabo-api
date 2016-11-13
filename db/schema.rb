@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111093153) do
+ActiveRecord::Schema.define(version: 20161113025248) do
+
+  create_table "missions", force: :cascade do |t|
+    t.string  "title",       default: "", null: false
+    t.string  "description", default: "", null: false
+    t.integer "user_id"
+    t.index ["description"], name: "index_missions_on_description"
+    t.index ["title"], name: "index_missions_on_title"
+    t.index ["user_id"], name: "index_missions_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
