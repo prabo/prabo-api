@@ -7,7 +7,8 @@ class User < ApplicationRecord
   has_many :completes
   has_many :completed_missions, :through => :completes, :inverse_of => :completed_users, :source => :mission
 
-  validates :email, presence: true
+  validates_uniqueness_of :username
+  validates_presence_of :username
 
   alias_attribute :created_missions, :missions
 
@@ -22,5 +23,14 @@ class User < ApplicationRecord
 
   def uncomplete(mission)
     self.completed_missions.include?(mission) and self.completed_missions.destroy mission
+  end
+
+  # devise module deactivate email
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
   end
 end

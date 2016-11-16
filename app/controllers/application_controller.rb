@@ -2,6 +2,8 @@ class ApplicationController < ActionController::API
   include AbstractController::Translation
 
   before_action :authenticate_user_from_token!
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
 
   respond_to :json
 
@@ -43,6 +45,11 @@ class ApplicationController < ActionController::API
   def authenticate_error
     # User's token is either invalid or not in the right format
     render json: { error: t('messages.failure_authentications') }, status: 401 # Authentication
+  end
+
+  protected
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :password, :password_confirmation) }
   end
 
 end
