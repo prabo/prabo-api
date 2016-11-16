@@ -26,3 +26,4 @@ en:
     mission_create_error: 'Error mission not created.'
     mission_delete_error: "Error can't delete mission."
     mission_update_error: "Error can't update mission."
+    invalid_login: "Invalid User infos."

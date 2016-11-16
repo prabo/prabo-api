@@ -4,27 +4,22 @@ module V1
 
     # POST /v1/login
     def create
-      @user = User.find_for_database_authentication(email: params[:email])
-      return invalid_email unless @user
+      @user = User.find_for_database_authentication(username: params[:username])
+      return invalid_login unless @user
 
       if @user.valid_password?(params[:password])
         sign_in :user, @user
         render json: @user, serializer: SessionSerializer, root: nil
       else
-        invalid_password
+        invalid_login
       end
     end
 
     private
 
-    def invalid_email
+    def invalid_login
       warden.custom_failure!
-      render json: { error: t('invalid_email') }
-    end
-
-    def invalid_password
-      warden.custom_failure!
-      render json: { error: t('invalid_password') }
+      render json: { error: t('messages.invalid_login') }
     end
   end
 
