@@ -5,7 +5,8 @@ module V1
     # Show all missions
     def index
       @missions = Mission.all
-      render json: @missions, root: nil
+      @missions.each { |e| e.set_target_user(authenticate_user!)}
+      render json: @missions, each_serializer: V1::MissionSerializer, root: nil
     end
 
     # POST
@@ -14,7 +15,7 @@ module V1
       @mission = authenticate_user!.missions.build mission_params
 
       if @mission.save!
-        render json: @mission, root: nil
+        render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: { error: t('message.mission_create_error') }, status: :unprocessable_entity
       end
@@ -25,7 +26,7 @@ module V1
     def destroy
       @mission = authenticate_user!.missions.find(params[:id])
       if !@mission.nil? and @mission.destroy!
-        render json: @mission, root: nil
+        render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: { error: t('message.mission_create_error') }, status: :unprocessable_entity
       end
@@ -36,7 +37,7 @@ module V1
     def update
       @mission = authenticate_user!.missions.find(params[:id])
       if !@mission.nil? and @mission.update mission_params
-        render json: @mission, root: nil
+        render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: { error: t('message.mission_update_error') }, status: :unprocessable_entity
       end
@@ -46,7 +47,7 @@ module V1
     # Show an mission
     def show
       @mission = Mission.find(params[:id])
-      render json: @mission, root: nil
+      render json: @mission, serializer: V1::MissionSerializer, root: nil
     end
 
     # PUT
