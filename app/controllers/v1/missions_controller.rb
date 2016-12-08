@@ -53,7 +53,7 @@ module V1
     # PUT
     # complete an mission
     def complete
-      @mission = authenticate_user!.missions.find(params[:mission_id])
+      @mission = Mission.find(params[:mission_id])
       if @mission.nil?
         render json: { error: 'Not found or You are author.' }, status: :unprocessable_entity
       elsif !authenticate_user!.complete(@mission)
@@ -66,7 +66,7 @@ module V1
     # PUT
     # uncomplete an mission
     def uncomplete
-      @mission = authenticate_user!.missions.find(params[:mission_id])
+      @mission = Mission.find(params[:mission_id])
       if @mission.nil?
         render json: { error: 'Not found or You are author.' }, status: :unprocessable_entity
       elsif !authenticate_user!.uncomplete(@mission)
