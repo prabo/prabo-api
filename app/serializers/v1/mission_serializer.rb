@@ -1,7 +1,7 @@
 module V1
   class MissionSerializer < ActiveModel::Serializer
 
-    attributes :id, :title, :description, :author_id, :is_completed
+    attributes :id, :title, :description, :author_id, :is_completed, :category
 
     def author_id
       object.author.id
