@@ -11,9 +11,23 @@ user2 = User.create(username: 'toshino', password: 'password')
 
 puts "#{User.count} User created"
 
-mission1 = user1.missions.create(title: 'テストミッション1', description: 'これはテストミッションの詳細分です。')
-mission2 = user1.missions.create(title: 'テストミッション2', description: '長い詳細文。' * 10)
-mission3 = user1.missions.create(title: 'テストミッション3', description: '説明文。')
+category1 = Category.create(name: 'カテゴリー1')
+category2 = Category.create(name: 'カテゴリー2')
+
+puts "#{Mission.count} Mission created"
+
+mission1 = user1.missions.create(
+    title: 'テストミッション1',
+    description: 'これはテストミッションの詳細分です。',
+    category_id: category1.id)
+mission2 = user1.missions.create(
+    title: 'テストミッション2',
+    description: '長い詳細文。' * 10,
+    category_id: category1.id)
+mission3 = user1.missions.create(
+    title: 'テストミッション3',
+    description: '説明文。',
+    category_id: category2.id)
 
 puts "#{Mission.count} Mission created"
 

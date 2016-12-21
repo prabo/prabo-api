@@ -12,6 +12,10 @@ module V1
     # POST
     # Create an mission
     def create
+      category = Category.find(mission_params[:category_id])
+      unless category
+        render json: { error: t('message.category_undefined_error') }, status: :unprocessable_entity
+      end
       @mission = authenticate_user!.missions.build mission_params
 
       if @mission.save!
@@ -79,7 +83,7 @@ module V1
     private
 
     def mission_params
-      params.permit(:title, :description)
+      @mission_params || params.permit(:title, :description, :category_id)
     end
   end
 end
