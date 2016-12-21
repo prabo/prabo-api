@@ -26,5 +26,8 @@ en:
     mission_create_error: 'Error mission not created.'
     mission_delete_error: "Error can't delete mission."
     mission_update_error: "Error can't update mission."
+    category_create_error: 'Error category not created.'
+    category_delete_error: "Error can't delete category."
+    category_update_error: "Error can't update category."
     invalid_login: "Invalid User infos."
     category_undefined_error: "Error not found Category."
