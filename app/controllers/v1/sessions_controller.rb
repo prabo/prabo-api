@@ -19,7 +19,7 @@ module V1
 
     def invalid_login
       warden.custom_failure!
-      render json: { error: t('messages.invalid_login') }
+      render json: { error: '不正なログインです。' }
     end
   end
 

@@ -11,12 +11,15 @@ module V1
     # POST
     # Create an category
     def create
+      if Category.exists?(:name => category_params[:name])
+        return render json: { error: 'そのカテゴリー名は使われています。' }, status: 400
+      end
       @category = Category.new category_params
 
       if @category.save!
         render json: @category, serializer: V1::CategorySerializer, root: nil
       else
-        render json: {error: t('message.category_create_error')}, status: :unprocessable_entity
+        render json: {error: 'カテゴリーを作成できませんでした。'}, status: :unprocessable_entity
       end
     end
 
@@ -24,10 +27,12 @@ module V1
     # delete an category
     def destroy
       @category = Category.find(params[:id])
-      if !@category.nil? and @category.destroy!
+      if !@category.nil?
+        render json: {error: 'そのカテゴリーは存在しません。'}, status: :unprocessable_entity
+      elsif @category.destroy!
         render json: @category, serializer: V1::CategorySerializer, root: nil
       else
-        render json: {error: t('message.category_create_error')}, status: :unprocessable_entity
+        render json: {error: 'カテゴリーを削除できませんでした。'}, status: :unprocessable_entity
       end
     end
 
@@ -38,7 +43,7 @@ module V1
       if !@category.nil? and @category.update category_params
         render json: @category, serializer: V1::CategorySerializer, root: nil
       else
-        render json: {error: t('message.category_update_error')}, status: :unprocessable_entity
+        render json: {error: 'カテゴリーを変更することが出来ませんでした'}, status: :unprocessable_entity
       end
     end
 
@@ -47,6 +52,10 @@ module V1
     def show
       @category = Category.find(params[:id])
       render json: @category, serializer: V1::CategorySerializer, root: nil
+    end
+
+    def render_404
+      render json: {error: 'カテゴリーが見つかりません。'}, status: 404
     end
 
     private

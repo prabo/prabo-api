@@ -4,6 +4,11 @@ class ApplicationController < ActionController::API
   before_action :authenticate_user_from_token!
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+  # 例外処理
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from ActionController::RoutingError, with: :render_404
+  rescue_from ActionController::RoutingError, with: :render_404
+
 
   respond_to :json
 
@@ -44,12 +49,20 @@ class ApplicationController < ActionController::API
   # Renders a 401 error
   def authenticate_error
     # User's token is either invalid or not in the right format
-    render json: { error: t('messages.failure_authentications') }, status: 401 # Authentication
+    render json: {error: t('messages.failure_authentications')}, status: 401 # Authentication
   end
 
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :password, :password_confirmation) }
+  end
+
+  def render_400
+    render json: {error: '不正なリクエストです。'}, status: 400
+  end
+
+  def render_404
+    render json: {error: '見つかりません。'}, status: 404
   end
 
 end

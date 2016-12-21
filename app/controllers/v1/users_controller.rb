@@ -5,13 +5,16 @@ module V1
     # POST
     # Create an user
     def create
+      if User.exists?(username: user_params[:username])
+        return render json: {error: 'そのユーザ名は使われています。'}, status: :unprocessable_entity
+      end
       @user = User.new user_params
 
-      if @user.save!
-        render json: @user, serializer: V1::SessionSerializer, root: nil
-      else
-        render json: { error: t('message.user_create_error') }, status: :unprocessable_entity
+      unless @user.save!
+        return render json: {error: 'ユーザを作成することが出来ませんでした。'}, status: :unprocessable_entity
       end
+
+      render json: @user, serializer: V1::SessionSerializer, root: nil
     end
 
     # GET
@@ -19,6 +22,10 @@ module V1
     def show
       @user = User.find(params[:id])
       render json: @user, serializer: V1::UserSerializer, root: nil
+    end
+
+    def render_404
+      render json: {error: 'ユーザが見つかりません。'}, status: 404
     end
 
     private

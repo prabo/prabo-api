@@ -8,5 +8,6 @@ Rails.application.routes.draw do
       post :complete
       post :uncomplete
     end
+    get '*path', controller: 'application', action: 'render_404'
   end
 end
