@@ -6,7 +6,7 @@ module V1
     def index
       @missions = Mission.all
       @missions.each { |e| e.set_target_user(authenticate_user!) }
-      render json: @missions, each_serializer: V1::MissionSerializer, root: nil
+      render json: @missions, each_serializer: V1::MissionMinSerializer, root: nil
     end
 
     # POST
