@@ -51,7 +51,8 @@ module V1
     # Show an category
     def show
       @category = Category.find(params[:id])
-      render json: @category, serializer: V1::CategorySerializer, root: nil
+      @category.missions.each { |e| e.set_target_user(authenticate_user!) }
+      render json: @category, serializer: V1::CategoryDetailsSerializer, root: nil
     end
 
     def render_404

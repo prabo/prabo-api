@@ -2,6 +2,13 @@ module V1
   class UsersController < ApplicationController
     skip_before_action :authenticate_user_from_token!, only: [:create]
 
+    # GET
+    # Index users
+    def index
+      @users = User.all
+      render json: @users, each_serializer: V1::UserSerializer, root: nil
+    end
+
     # POST
     # Create an user
     def create
@@ -21,7 +28,7 @@ module V1
     # Show an user
     def show
       @user = User.find(params[:id])
-      render json: @user, serializer: V1::UserSerializer, root: nil
+      render json: @user, serializer: V1::UserDetailsSerializer, root: nil
     end
 
     def render_404

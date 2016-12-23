@@ -54,7 +54,7 @@ module V1
     def show
       @mission = Mission.find(params[:id])
       @mission.set_target_user(authenticate_user!)
-      render json: @mission, serializer: V1::MissionSerializer, root: nil
+      render json: @mission, serializer: V1::MissionDetailsSerializer, root: nil
     end
 
     # PUT
