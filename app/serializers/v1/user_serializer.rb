@@ -1,5 +1,5 @@
 module V1
-  class UserMinSerializer < ActiveModel::Serializer
+  class UserSerializer < ActiveModel::Serializer
 
     attributes :id, :username
 

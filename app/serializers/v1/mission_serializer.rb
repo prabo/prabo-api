@@ -3,7 +3,7 @@ module V1
 
     attributes :id, :title, :description, :author_id, :is_completed
     has_one :category, serializer: CategorySerializer
-    has_one :author, serializer: UserMinSerializer
+    has_one :author, serializer: UserSerializer
 
     def author_id
       object.author.id
