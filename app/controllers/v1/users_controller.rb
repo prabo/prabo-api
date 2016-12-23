@@ -21,7 +21,7 @@ module V1
     # Show an user
     def show
       @user = User.find(params[:id])
-      render json: @user, serializer: V1::UserSerializer, root: nil
+      render json: @user, serializer: V1::UserDetailsSerializer, root: nil
     end
 
     def render_404
