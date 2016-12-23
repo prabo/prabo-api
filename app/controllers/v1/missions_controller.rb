@@ -21,7 +21,7 @@ module V1
       @mission = authenticate_user!.missions.build mission_params
 
       if @mission.save!
-        render json: @mission, serializer: V1::MissionDetailsSerializer, root: nil
+        render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: {error: 'ミッションを作成できませんでした。'}, status: :unprocessable_entity
       end
@@ -32,7 +32,7 @@ module V1
     def destroy
       @mission = authenticate_user!.missions.find(params[:id])
       if !@mission.nil? and @mission.destroy!
-        render json: @mission, serializer: V1::MissionDetailsSerializer, root: nil
+        render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: {error: 'ミッションを削除できませんでした。'}, status: :unprocessable_entity
       end
@@ -43,7 +43,7 @@ module V1
     def update
       @mission = authenticate_user!.missions.find(params[:id])
       if !@mission.nil? and @mission.update mission_params
-        render json: @mission, serializer: V1::MissionDetailsSerializer, root: nil
+        render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: {error: 'ミッションを更新できませんでした。'}, status: :unprocessable_entity
       end
