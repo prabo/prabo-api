@@ -27,7 +27,7 @@ module V1
     # delete an category
     def destroy
       @category = Category.find(params[:id])
-      if !@category.nil?
+      if @category.nil?
         render json: {error: 'そのカテゴリーは存在しません。'}, status: :unprocessable_entity
       elsif @category.destroy!
         render json: @category, serializer: V1::CategorySerializer, root: nil
