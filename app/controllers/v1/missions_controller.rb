@@ -61,7 +61,6 @@ module V1
     # complete an mission
     def complete
       @mission = Mission.find(params[:mission_id])
-      binding.pry
       unless authenticate_user!.complete(@mission)
         render json: {error: '既に達成済みです。'}, status: :unprocessable_entity
       else
