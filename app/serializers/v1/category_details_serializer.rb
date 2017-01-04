@@ -1,7 +1,5 @@
 module V1
-  class CategoryDetailsSerializer < ActiveModel::Serializer
-
-    attributes :id, :name
+  class CategoryDetailsSerializer < CategorySerializer
     has_many :missions, serializer: MissionSerializer
 
   end
