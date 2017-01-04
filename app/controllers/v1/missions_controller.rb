@@ -61,20 +61,25 @@ module V1
     # complete an mission
     def complete
       @mission = Mission.find(params[:mission_id])
-      if !authenticate_user!.complete(@mission)
+      binding.pry
+      unless authenticate_user!.complete(@mission)
         render json: {error: '既に達成済みです。'}, status: :unprocessable_entity
+      else
+        comp = authenticate_user!.completes.find_by_mission_id(@mission.id)
+        render json: comp, serializer: V1::CompleteSerializer, root: nil
       end
-      render json: {:status => 'ok', :message => 'Success!'}, root: nil
     end
 
     # PUT
     # uncomplete an mission
     def uncomplete
       @mission = Mission.find(params[:mission_id])
-      if !authenticate_user!.uncomplete(@mission)
+      comp = authenticate_user!.completes.find_by_mission_id(@mission.id)
+      unless authenticate_user!.uncomplete(@mission)
         render json: {error: '未達成のミッションです。'}, status: :unprocessable_entity
+      else
+        render json: comp, serializer: V1::CompleteSerializer, root: nil
       end
-      render json: {:status => 'ok', :message => 'Success!'}, root: nil
     end
 
     def render_404
