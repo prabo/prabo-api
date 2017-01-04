@@ -28,6 +28,8 @@ module V1
     # Show an user
     def show
       @user = User.find(params[:id])
+      @user.created_missions.each { |e| e.set_target_user(authenticate_user!) }
+      @user.completed_missions.each { |e| e.set_target_user(authenticate_user!) }
       render json: @user, serializer: V1::UserDetailsSerializer, root: nil
     end
 
