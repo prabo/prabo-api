@@ -1,5 +1,6 @@
 module V1
   class MissionsController < ApplicationController
+    before_action :set_entity, only: [:destroy, :update, :show]
 
     # GET
     # Show all missions
@@ -30,8 +31,9 @@ module V1
     # DELETE
     # delete an mission
     def destroy
-      @mission = authenticate_user!.missions.find(params[:id])
-      if !@mission.nil? and @mission.destroy!
+      if @mission.author.id != authenticate_user!.id
+        render_403
+      elsif !@mission.nil? and @mission.destroy!
         render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: {error: 'ミッションを削除できませんでした。'}, status: :unprocessable_entity
@@ -41,8 +43,9 @@ module V1
     # PUT
     # update an mission
     def update
-      @mission = authenticate_user!.missions.find(params[:id])
-      if !@mission.nil? and @mission.update mission_params
+      if @mission.author.id != authenticate_user!.id
+        render_403
+      elsif !@mission.nil? and @mission.update mission_params
         render json: @mission, serializer: V1::MissionSerializer, root: nil
       else
         render json: {error: 'ミッションを更新できませんでした。'}, status: :unprocessable_entity
@@ -52,7 +55,6 @@ module V1
     # GET
     # Show an mission
     def show
-      @mission = Mission.find(params[:id])
       @mission.set_target_user(authenticate_user!)
       render json: @mission, serializer: V1::MissionDetailsSerializer, root: nil
     end
@@ -81,11 +83,21 @@ module V1
       end
     end
 
+    def render_403
+      render json: {error: '権限がありません。'}, status: 403
+    end
+
     def render_404
       render json: {error: 'ミッションが見つかりません。'}, status: 404
     end
 
     private
+    def set_entity
+      @mission = Mission.find(params[:id])
+      if @mission.nil?
+        render_404
+      end
+    end
 
     def mission_params
       @mission_params || params.permit(:title, :description, :category_id)
